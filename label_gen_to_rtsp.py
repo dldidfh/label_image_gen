@@ -1,7 +1,6 @@
 import datetime
 from tracemalloc import start
 from config import * # global variables 
-from model.video_detect import video_detection
 from background_subtractor import BackgroundSub
 import os
 import cv2
@@ -35,32 +34,31 @@ class label_gen():
         BGS = BackgroundSub()
         file_num = 0
         frame_num = 0
-        for file in self.file_list:
-            vid = cv2.VideoCapture(file)            
-            frame_check = 0
-            return_value_check = 0
-            while True:
-                time1 = time.time()
-                return_value, frame = vid.read()
-                frame_check +=1
-                if not return_value:
-                    return_value_check +=1
-                    print("No frame ")
-                    if return_value_check > 30:
-                        break
-                    continue
-                elif frame_check >= int(vid.get(cv2.CAP_PROP_FRAME_COUNT)):
-                    frame_check = 0
+        vid = cv2.VideoCapture(RTSP_URL)            
+        frame_check = 0
+        return_value_check = 0
+        while True:
+            time1 = time.time()
+            return_value, frame = vid.read()
+            frame_check +=1
+            if not return_value:
+                return_value_check +=1
+                print("No frame ")
+                if return_value_check > 30:
                     break
-
+                continue
+            # elif frame_check >= int(vid.get(cv2.CAP_PROP_FRAME_COUNT)):
+            #     frame_check = 0
+            #     break
+            if return_value:
                 if self.ROI_set == True:
                     if self.poly_list == []:
                         self.poly_list, _, _ = DrawLineMouseGesture().draw_line(frame)
                         frame = ROI_crop(frame, self.poly_list)
                     else:
                         frame = ROI_crop(frame, self.poly_list)
-                # cv2.imshow('frame',frame)
-                # cv2.waitKey(1)
+                cv2.imshow('frame',frame)
+                cv2.waitKey(1)
                 if frame_num % HOW_MANY_FRAME == 0:
                     vue_mean = BGS.execute(frame)
                     if vue_mean > VUE_THREASHOLD:
@@ -69,6 +67,7 @@ class label_gen():
                             root_dir_path = self.mkdir()
                         output_path = root_dir_path + self.analysis_location + '_' + str(self.image_num)
                         if self.detecting:
+                            from model.video_detect import video_detection
                             boxes, _, classes, resized_frame, pad_size = video_detection('args',frame, self.model)
                             self.txt_save(boxes, output_path, pad_size, classes, resized_frame)
                         cv2.imwrite(output_path+'.jpg', frame)
