@@ -63,7 +63,7 @@ class label_gen():
                 # cv2.waitKey(1)
                 if frame_num % HOW_MANY_FRAME == 0:
                     vue_mean = BGS.execute(frame)
-                    if vue_mean > VUE_THREASHOLD:
+                    if vue_mean > VUE_THRESHOLD:
                         # 
                         if self.image_num % HOW_MANY_IMAGES == 0 or frame_num==0:
                             root_dir_path = self.mkdir()
@@ -133,7 +133,7 @@ class label_gen():
                     video_list.append(os.path.join(path, file))
         return video_list
 
-data = label_gen(ROI_set=ROI_SET)
+data = label_gen(ROI_set=ROI_SET, detecting=DETECTING)
 start_time = time.time()
 data.data_gen()
 print("소모된 시간 : {:.2f}초".format(time.time() - start_time))
