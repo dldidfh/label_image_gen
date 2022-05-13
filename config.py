@@ -2,7 +2,7 @@ import os
 
 ROOT_PATH = 'D:/test_videos/bangkok/'
 RTSP_URL = 'rtsp://'
-ANALYSIS_LOCATION = 'YoungIn_VDS'  # 레이블이 저장되는 폴더 이름 
+ANALYSIS_LOCATION = 'YoungIn_VDS'  # 이미지가 저장되는 폴더 이름 
 # ANALYSIS_LOCATION = 'Gungiyung_night_data_18_to_06' 
 ROI_SET = False # ROI 설정이 필요할 경우 True 설정 
 DETECTING = False # 모델을 통해 라벨링 하기 전에 검출을 진행하여 txt 를 저장함 
@@ -17,7 +17,7 @@ OUTPUT_ROOT_DIR = './output/'
 WORKER_NAME = ['YoungIn_VDS'] # 이미지 파일이 저장되는 이름 
 
 HOW_MANY_IMAGES = 300 # 하나의 폴더에 몇장의 이미지를 넣을지 
-HOW_MANY_FRAME = 900 # 몇프레임마다 이미지를 저장할 지 
+HOW_MANY_FRAME = 900 # 몇프레임마다 이미지를 저장할 지 15FPS = 1초 
 
 VUE_THRESHOLD = 10 # 아무 차량이 없을 때를 캡쳐하는 것을 방지하기 위해 배경추출을 통해 움직인 객체가 있을 때만 이미지 저장 
 

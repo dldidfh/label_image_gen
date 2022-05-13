@@ -39,8 +39,8 @@ class label_gen():
             vid = cv2.VideoCapture(file)            
             frame_check = 0
             return_value_check = 0
+            time1 = time.time()
             while True:
-                time1 = time.time()
                 return_value, frame = vid.read()
                 frame_check +=1
                 if not return_value:
@@ -74,7 +74,8 @@ class label_gen():
                         cv2.imwrite(output_path+'.jpg', frame)
                         self.image_num +=1   
                         file_num += 1
-                        print("생성 이미지 : {} \t소요시간 : {:.2f}".format(file_num,time.time()- time1))             
+                        print("생성 이미지 : {} \t소요시간 : {:.2f}".format(file_num,time.time()- time1))   
+                        time1 = time.time()          
                 frame_num += 1
         # txt 파일 저장 
         with open('./last_file_number.txt','w') as wd:
